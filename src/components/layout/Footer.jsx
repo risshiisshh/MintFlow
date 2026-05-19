@@ -7,9 +7,7 @@ export default function Footer() {
         {/* Brand */}
         <div className="space-y-sm">
           <div className="flex items-center gap-sm">
-            <div className="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center">
-              <span className="material-symbols-outlined fill text-secondary-container text-[18px]">token</span>
-            </div>
+            <img src="/logo.svg" alt="MintFlow Logo" className="w-8 h-8" />
             <div className="font-display-md text-[20px] font-black text-primary">MintFlow</div>
           </div>
           <p className="font-body-md text-body-md text-on-surface-variant max-w-sm">

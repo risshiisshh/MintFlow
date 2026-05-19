@@ -39,9 +39,7 @@ export default function SideMenu({ isOpen, onClose }) {
         {/* Header */}
         <div className="flex items-center justify-between p-md border-b border-outline-variant/20">
           <div className="flex items-center gap-xs">
-            <div className="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center">
-              <span className="material-symbols-outlined fill text-secondary-container text-[18px]">token</span>
-            </div>
+            <img src="/logo.svg" alt="MintFlow Logo" className="w-8 h-8" />
             <span className="font-display-md text-[20px] font-black text-primary tracking-tight">MintFlow</span>
           </div>
           <button onClick={onClose} className="p-2 rounded-full hover:bg-surface-container transition-colors text-on-surface-variant">

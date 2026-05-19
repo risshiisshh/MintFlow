@@ -43,9 +43,7 @@ export default function Navbar({ onMenuToggle }) {
             </button>
             
             <Link to="/" className="flex items-center gap-xs ml-xs">
-              <div className="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center">
-                <span className="material-symbols-outlined fill text-secondary-container text-[18px]">token</span>
-              </div>
+              <img src="/logo.svg" alt="MintFlow Logo" className="w-8 h-8" />
               <span className="font-display-md text-[20px] font-black text-primary tracking-tight hidden sm:block">MintFlow</span>
             </Link>
           </div>
