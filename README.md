@@ -1,16 +1,40 @@
-# React + Vite
+# MintFlow
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+MintFlow is a premium Web3 platform designed to eliminate gas friction from the blockchain onboarding experience. Powered by our Universal Gas Framework (UGF), MintFlow abstracts away complex network mechanics, allowing users to mint NFTs, earn credentials, and explore multi-chain ecosystems—without ever needing native ETH or MATIC for gas fees.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Gasless Infrastructure**: 100% of transaction fees are handled backend via the UGF engine.
+- **Premium Fintech UI**: Beautiful, calm, high-fidelity dark-mode design with fluid 3D elements and smooth animations. 
+- **Educational Demo Mode**: Learn how optimistic routing and Zk-attested transactions work through an interactive, animated simulation hub.
+- **Interactive Assistant**: Integrated automated chatbot to guide users and answer FAQs directly on the platform.
+- **Responsive Architecture**: Fully mobile-optimized, side-menu driven navigation architecture built for scalability.
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React 18
+- Vite
+- Tailwind CSS
+- React Router DOM
+- Material Symbols (Google Fonts)
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+2. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
+
+3. Open `http://localhost:5173` to view it in your browser.
+
+## Project Structure
+
+- `/src/pages`: Main application routes (Landing, Portfolio, Transaction Flow Demo, FAQ, etc.)
+- `/src/components/layout`: Global shell elements like Navbar, SideMenu, and Footer.
+- `/src/components/ui`: Reusable visual components (Cards, Accordions, Buttons).
+- `/public/images`: Pre-rendered 3D assets used throughout the platform.
