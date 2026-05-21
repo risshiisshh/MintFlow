@@ -1,19 +1,13 @@
-# Frontend (not deployed in this container)
-src/
-public/
+# Build outputs and dependencies
 dist/
 node_modules/
-index.html
-vite.config.js
-tailwind.config.js
-postcss.config.js
-eslint.config.js
-package.json
-package-lock.json
-
-# Backend build artifacts and local dev files
 backend/dist/
 backend/node_modules/
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
 backend/.env
 backend/.env.local
 backend/.env.*.local
@@ -31,6 +25,3 @@ Thumbs.db
 # Logs
 *.log
 npm-debug.log*
-
-# README
-README.md

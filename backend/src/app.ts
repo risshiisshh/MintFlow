@@ -1,5 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
+import path from 'path';
 import rateLimit from 'express-rate-limit';
 import apiRouter from './api/routes';
 import config from './utils/config';
@@ -71,9 +72,16 @@ app.get('/health', (req: Request, res: Response) => {
   });
 });
 
-// 7. Fallback route handler (404)
+// 7. Serve Static Frontend Files & Fallback route handler (404)
+const frontendDistPath = path.join(__dirname, '../frontend-dist');
+app.use(express.static(frontendDistPath));
+
 app.use((req: Request, res: Response) => {
-  res.status(404).json({ error: 'Endpoint not found' });
+  if (req.path.startsWith('/api/')) {
+    res.status(404).json({ error: 'Endpoint not found' });
+  } else {
+    res.sendFile(path.join(frontendDistPath, 'index.html'));
+  }
 });
 
 // 8. Global Error Handler Middleware

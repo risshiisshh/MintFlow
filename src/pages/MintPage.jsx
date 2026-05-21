@@ -20,7 +20,7 @@ export default function MintPage() {
     setExplainingMessage(null);
     setTxHash(null);
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+      const apiUrl = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? "" : "http://localhost:8080");
       const res = await fetch(`${apiUrl}/api/mint`, {
         method: 'POST',
         headers: {
@@ -48,7 +48,7 @@ export default function MintPage() {
     let timer;
     const checkStatus = async () => {
       try {
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+        const apiUrl = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? "" : "http://localhost:8080");
         const res = await fetch(`${apiUrl}/api/mint/status/${txId}`, {
           headers: {
             'Authorization': `Bearer ${jwtToken}`
