@@ -91,10 +91,16 @@ export async function getOrCreateSmartAccount(
   // Generate a random signer wallet
   const chainConf = getChainConfig(chainName);
   
-  // Check if we should use Mock Mode
-  const isMockMode = config.POLYGON_BUNDLER_RPC_URL.includes('your_pimlico_api_key') ||
-                     config.BASE_BUNDLER_RPC_URL.includes('your_pimlico_api_key') ||
-                     config.SPONSOR_PRIVATE_KEY === '0x0000000000000000000000000000000000000000000000000000000000000000';
+  // Determine whether to use Mock Mode.
+  // Live mode requires:
+  //   1. A real Pimlico API key (URL must NOT contain the placeholder string)
+  //   2. A deployed NFT contract address (must NOT be the zero address)
+  // Note: SPONSOR_PRIVATE_KEY is intentionally NOT checked here. The Pimlico
+  // Verifying Paymaster sponsors gas on-chain directly — no server-side gas
+  // wallet is required for the ERC-4337 UserOperation pipeline.
+  const isMockMode =
+    chainConf.bundlerUrl.includes('your_pimlico_api_key') ||
+    chainConf.nftAddress === '0x0000000000000000000000000000000000000000';
 
   if (isMockMode) {
     console.log(`[MOCK MODE] Generating mock Safe smart account for ${eoaAddress} on ${chainName}...`);
@@ -194,11 +200,13 @@ export async function executeGaslessMint(
     throw new Error('Corrupted wallet data: Missing encrypted key.');
   }
 
-  // Check if we should use Mock Mode
-  const isMockMode = data.isMock ||
-                     config.POLYGON_BUNDLER_RPC_URL.includes('your_pimlico_api_key') ||
-                     config.BASE_BUNDLER_RPC_URL.includes('your_pimlico_api_key') ||
-                     config.SPONSOR_PRIVATE_KEY === '0x0000000000000000000000000000000000000000000000000000000000000000';
+  // Determine whether to use Mock Mode.
+  // Uses the wallet-level isMock flag (set at creation time) OR checks
+  // current environment: Pimlico URL placeholder or zero NFT address.
+  const isMockMode =
+    data.isMock ||
+    chainConf.bundlerUrl.includes('your_pimlico_api_key') ||
+    chainConf.nftAddress === '0x0000000000000000000000000000000000000000';
 
   if (isMockMode) {
     console.log(`🚀 [MOCK MODE] Sponsoring transaction for Safe ${data.smartAccountAddress} on ${chainName}...`);
