@@ -52,7 +52,14 @@ export function AuthProvider({ children }) {
   // AUTH LISTENER (FIXED)
   // --------------------------
   useEffect(() => {
+    // Safety timeout — if Firebase never fires onAuthStateChanged (bad config,
+    // network block, etc.) we still render the app after 5 seconds.
+    const timeout = setTimeout(() => {
+      setLoading(false);
+    }, 5000);
+
     const unsub = onAuthStateChanged(auth, async (firebaseUser) => {
+      clearTimeout(timeout);
       if (!firebaseUser) {
         setUser(null);
         setWalletInfo(null);
@@ -63,7 +70,10 @@ export function AuthProvider({ children }) {
       await fetchWallet(firebaseUser, currentChain);
       setLoading(false);
     });
-    return () => unsub();
+    return () => {
+      clearTimeout(timeout);
+      unsub();
+    };
   }, [currentChain]);
 
   // --------------------------
