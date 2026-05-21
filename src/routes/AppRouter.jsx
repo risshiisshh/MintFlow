@@ -1,17 +1,17 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, lazy, Suspense } from 'react';
 import RootLayout from '../layouts/RootLayout';
 
-import LandingPage from '../pages/LandingPage';
-import DashboardPage from '../pages/DashboardPage';
-import MintPage from '../pages/MintPage';
-import MarketplacePage from '../pages/MarketplacePage';
-import PortfolioPage from '../pages/PortfolioPage';
-import ExplorerPage from '../pages/ExplorerPage';
-import BeginnerPage from '../pages/BeginnerPage';
-import TransactionFlowPage from '../pages/TransactionFlowPage';
-import FAQPage from '../pages/FAQPage';
-import SuccessPage from '../pages/SuccessPage';
+const LandingPage = lazy(() => import('../pages/LandingPage'));
+const DashboardPage = lazy(() => import('../pages/DashboardPage'));
+const MintPage = lazy(() => import('../pages/MintPage'));
+const MarketplacePage = lazy(() => import('../pages/MarketplacePage'));
+const PortfolioPage = lazy(() => import('../pages/PortfolioPage'));
+const ExplorerPage = lazy(() => import('../pages/ExplorerPage'));
+const BeginnerPage = lazy(() => import('../pages/BeginnerPage'));
+const TransactionFlowPage = lazy(() => import('../pages/TransactionFlowPage'));
+const FAQPage = lazy(() => import('../pages/FAQPage'));
+const SuccessPage = lazy(() => import('../pages/SuccessPage'));
 
 // ScrollToTop component to ensure new pages start at the top
 function ScrollToTop() {
@@ -30,16 +30,16 @@ export default function AppRouter() {
       <ScrollToTop />
       <Routes>
         <Route element={<RootLayout />}>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/mint" element={<MintPage />} />
-          <Route path="/marketplace" element={<MarketplacePage />} />
-          <Route path="/portfolio" element={<PortfolioPage />} />
-          <Route path="/explorer" element={<ExplorerPage />} />
-          <Route path="/beginner" element={<BeginnerPage />} />
-          <Route path="/transaction-flow" element={<TransactionFlowPage />} />
-          <Route path="/faq" element={<FAQPage />} />
-          <Route path="/success" element={<SuccessPage />} />
+          <Route path="/" element={<Suspense fallback={<div className="flex h-screen items-center justify-center">Loading...</div>}><LandingPage /></Suspense>} />
+          <Route path="/dashboard" element={<Suspense fallback={<div className="flex h-screen items-center justify-center">Loading...</div>}><DashboardPage /></Suspense>} />
+          <Route path="/mint" element={<Suspense fallback={<div className="flex h-screen items-center justify-center">Loading...</div>}><MintPage /></Suspense>} />
+          <Route path="/marketplace" element={<Suspense fallback={<div className="flex h-screen items-center justify-center">Loading...</div>}><MarketplacePage /></Suspense>} />
+          <Route path="/portfolio" element={<Suspense fallback={<div className="flex h-screen items-center justify-center">Loading...</div>}><PortfolioPage /></Suspense>} />
+          <Route path="/explorer" element={<Suspense fallback={<div className="flex h-screen items-center justify-center">Loading...</div>}><ExplorerPage /></Suspense>} />
+          <Route path="/beginner" element={<Suspense fallback={<div className="flex h-screen items-center justify-center">Loading...</div>}><BeginnerPage /></Suspense>} />
+          <Route path="/transaction-flow" element={<Suspense fallback={<div className="flex h-screen items-center justify-center">Loading...</div>}><TransactionFlowPage /></Suspense>} />
+          <Route path="/faq" element={<Suspense fallback={<div className="flex h-screen items-center justify-center">Loading...</div>}><FAQPage /></Suspense>} />
+          <Route path="/success" element={<Suspense fallback={<div className="flex h-screen items-center justify-center">Loading...</div>}><SuccessPage /></Suspense>} />
         </Route>
       </Routes>
     </BrowserRouter>

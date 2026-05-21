@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 const navLinks = [
   { label: 'Home', to: '/' },
@@ -13,6 +14,7 @@ export default function Navbar({ onMenuToggle }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  const { user, loginWithRandomEmail, logout, walletInfo, walletLoading } = useAuth();
   const location = useLocation();
 
   const isActive = (path) => {
@@ -96,42 +98,56 @@ export default function Navbar({ onMenuToggle }) {
               )}
             </div>
 
-            <Link
-              to="/mint"
-              className="bg-secondary-container text-on-secondary-container px-md py-2 rounded-full font-bold text-sm hover:brightness-95 transition-all active:scale-95 shadow-sm whitespace-nowrap hidden sm:block"
-            >
-              Connect Wallet
-            </Link>
-
-            {/* Profile Dropdown */}
-            <div className="relative ml-xs">
-              <div 
-                onClick={() => { setShowProfile(!showProfile); setShowNotifications(false); }}
-                className="w-9 h-9 rounded-full bg-surface-container-high border border-outline-variant/30 flex items-center justify-center overflow-hidden cursor-pointer hover:border-primary transition-colors"
+            {!user ? (
+              <button
+                onClick={loginWithRandomEmail}
+                className="bg-secondary-container text-on-secondary-container px-md py-2 rounded-full font-bold text-sm hover:brightness-95 transition-all active:scale-95 shadow-sm whitespace-nowrap hidden sm:block"
               >
-                <span className="material-symbols-outlined text-on-surface-variant">account_circle</span>
-              </div>
-
-              {showProfile && (
-                <div className="absolute top-full right-0 mt-2 w-56 bg-white rounded-xl shadow-modal border border-outline-variant/30 py-2 z-50">
-                  <div className="px-4 py-3 border-b border-outline-variant/20">
-                    <p className="font-bold text-sm text-on-surface">Alex Mercer</p>
-                    <p className="text-xs text-on-surface-variant font-mono mt-0.5">0x71C...3E4b</p>
-                  </div>
-                  <div className="py-1">
-                    <Link to="/portfolio" className="flex items-center gap-sm px-4 py-2 text-sm text-on-surface hover:bg-surface-container-low transition-colors">
-                      <span className="material-symbols-outlined text-[18px]">account_box</span> My Profile
-                    </Link>
-                    <Link to="/dashboard" className="flex items-center gap-sm px-4 py-2 text-sm text-on-surface hover:bg-surface-container-low transition-colors">
-                      <span className="material-symbols-outlined text-[18px]">dashboard</span> Dashboard
-                    </Link>
-                    <button className="w-full flex items-center gap-sm px-4 py-2 text-sm text-error hover:bg-surface-container-low transition-colors text-left mt-1 border-t border-outline-variant/10">
-                      <span className="material-symbols-outlined text-[18px]">logout</span> Disconnect
-                    </button>
-                  </div>
+                Sign In
+              </button>
+            ) : (
+              <div className="relative ml-xs">
+                <div 
+                  onClick={() => { setShowProfile(!showProfile); setShowNotifications(false); }}
+                  className="w-9 h-9 rounded-full bg-surface-container-high border border-outline-variant/30 flex items-center justify-center overflow-hidden cursor-pointer hover:border-primary transition-colors"
+                >
+                  {user.photoURL ? (
+                    <img src={user.photoURL} alt="Profile" className="w-full h-full object-cover" />
+                  ) : (
+                    <span className="material-symbols-outlined text-on-surface-variant">account_circle</span>
+                  )}
                 </div>
-              )}
-            </div>
+
+                {showProfile && (
+                  <div className="absolute top-full right-0 mt-2 w-56 bg-white rounded-xl shadow-modal border border-outline-variant/30 py-2 z-50">
+                    <div className="px-4 py-3 border-b border-outline-variant/20">
+                      <p className="font-bold text-sm text-on-surface">{user.displayName || 'User'}</p>
+                      <p className="text-xs text-on-surface-variant font-mono mt-0.5">{user.email}</p>
+                      {walletLoading ? (
+                        <p className="text-xs text-primary mt-1 animate-pulse">Loading wallet...</p>
+                      ) : walletInfo?.smartAccountAddress ? (
+                        <div className="mt-1 pt-1 border-t border-outline-variant/10">
+                          <p className="text-[10px] text-on-surface-variant font-mono">
+                            Safe: {walletInfo.smartAccountAddress.slice(0, 6)}...{walletInfo.smartAccountAddress.slice(-4)}
+                          </p>
+                        </div>
+                      ) : null}
+                    </div>
+                    <div className="py-1">
+                      <Link to="/portfolio" className="flex items-center gap-sm px-4 py-2 text-sm text-on-surface hover:bg-surface-container-low transition-colors" onClick={() => setShowProfile(false)}>
+                        <span className="material-symbols-outlined text-[18px]">account_box</span> My Profile
+                      </Link>
+                      <Link to="/dashboard" className="flex items-center gap-sm px-4 py-2 text-sm text-on-surface hover:bg-surface-container-low transition-colors" onClick={() => setShowProfile(false)}>
+                        <span className="material-symbols-outlined text-[18px]">dashboard</span> Dashboard
+                      </Link>
+                      <button onClick={() => { logout(); setShowProfile(false); }} className="w-full flex items-center gap-sm px-4 py-2 text-sm text-error hover:bg-surface-container-low transition-colors text-left mt-1 border-t border-outline-variant/10">
+                        <span className="material-symbols-outlined text-[18px]">logout</span> Disconnect
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </nav>
