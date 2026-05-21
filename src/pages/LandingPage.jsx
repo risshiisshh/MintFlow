@@ -156,6 +156,7 @@ export default function LandingPage() {
           <div className="w-full lg:w-1/2 relative">
             <div className="absolute left-6 top-8 bottom-8 w-1 bg-outline-variant/30 rounded-full" />
             <div className="space-y-lg relative z-10">
+              {/* eslint-disable-next-line no-unused-vars */}
               {steps.map((step, idx) => (
                 <div key={step.num} className="flex gap-md group">
                   <div className="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center font-bold text-on-surface-variant group-hover:bg-secondary-container group-hover:text-on-secondary-container transition-colors ring-8 ring-surface-bright flex-shrink-0 shadow-sm border border-outline-variant/20">

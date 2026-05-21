@@ -1,0 +1,36 @@
+# Frontend (not deployed in this container)
+src/
+public/
+dist/
+node_modules/
+index.html
+vite.config.js
+tailwind.config.js
+postcss.config.js
+eslint.config.js
+package.json
+package-lock.json
+
+# Backend build artifacts and local dev files
+backend/dist/
+backend/node_modules/
+backend/.env
+backend/.env.local
+backend/.env.*.local
+
+# Version control
+.git/
+.gitignore
+
+# IDE / OS files
+.vscode/
+.idea/
+*.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# README
+README.md

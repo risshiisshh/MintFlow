@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 export default function StepperItem({ number, title, subtitle, status = 'pending' }) {
   // status: 'complete' | 'active' | 'pending'
   const nodeStyles = {
