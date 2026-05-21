@@ -5,7 +5,7 @@ import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 
 export default function DashboardPage() {
-  const { user, walletInfo, walletLoading, loginWithRandomEmail } = useAuth();
+  const { user, walletInfo, walletLoading, guestLogin } = useAuth();
   const [globalStats, setGlobalStats] = useState({
     totalTransactions: 0,
     totalSponsoredUSD: 0,
@@ -36,7 +36,9 @@ export default function DashboardPage() {
   // Fetch User-specific transactions from Firestore
   useEffect(() => {
     if (!walletInfo?.eoaAddress) {
-      setUserTx([]);
+      Promise.resolve().then(() => {
+        setUserTx([]);
+      });
       return;
     }
     const fetchUserTransactions = async () => {
@@ -127,14 +129,14 @@ export default function DashboardPage() {
                     {walletInfo.smartAccountAddress.slice(0, 8)}...{walletInfo.smartAccountAddress.slice(-6)}
                   </h3>
                   <p className="font-body-md text-on-surface-variant mt-xs font-mono text-sm opacity-60">
-                    EOA Signer: {walletInfo.eoaAddress.slice(0, 6)}...{walletInfo.eoaAddress.slice(-4)}
+                    EOA Signer: {walletInfo.eoaAddress?.slice(0, 6) || 'Unknown'}...{walletInfo.eoaAddress?.slice(-4) || ''}
                   </p>
                 </>
               ) : (
                 <>
                   <h3 className="font-display-md text-[24px] text-primary">Not Linked</h3>
                   <button
-                    onClick={loginWithRandomEmail}
+                    onClick={guestLogin}
                     className="text-xs text-primary font-bold hover:underline mt-sm block"
                   >
                     Click to link a secure wallet

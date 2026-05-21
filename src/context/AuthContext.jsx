@@ -1,123 +1,128 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+// src/context/AuthContext.jsx
+import { createContext, useContext, useState, useEffect } from "react";
 import {
   createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signInWithPopup,
   signOut,
   onAuthStateChanged
-} from 'firebase/auth';
-import { auth } from '../firebase';
+} from "firebase/auth";
+import { auth, googleProvider } from "../firebase";
 
 const AuthContext = createContext();
 
-// eslint-disable-next-line react-refresh/only-export-components
-export function useAuth() {
-  return useContext(AuthContext);
-}
+export const useAuth = () => useContext(AuthContext);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [jwtToken, setJwtToken] = useState(null);
-  const [currentChain, setCurrentChain] = useState('base');
+  const [currentChain, setCurrentChain] = useState("base");
   const [walletInfo, setWalletInfo] = useState(null);
   const [walletLoading, setWalletLoading] = useState(false);
 
-  const fetchWallet = async (token, chain) => {
+  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8080";
+
+  // --------------------------
+  // FETCH WALLET (SAFE)
+  // --------------------------
+  const fetchWallet = async (firebaseUser, chain = "base") => {
+    if (!firebaseUser) return;
     setWalletLoading(true);
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+      const token = await firebaseUser.getIdToken(true);
       const res = await fetch(`${apiUrl}/api/wallet?chain=${chain}`, {
+        method: "GET",
         headers: {
-          'Authorization': `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
         }
       });
-      if (!res.ok) {
-        throw new Error('Failed to fetch wallet info');
-      }
       const data = await res.json();
+      if (!res.ok) throw new Error(`Wallet API failed: ${res.status}`);
       setWalletInfo(data);
     } catch (err) {
-      console.error('Error fetching wallet info', err);
+      console.error("Wallet fetch error:", err);
+      setWalletInfo(null);
     } finally {
       setWalletLoading(false);
     }
   };
 
+  // --------------------------
+  // AUTH LISTENER (FIXED)
+  // --------------------------
   useEffect(() => {
-    if (user && jwtToken) {
-      fetchWallet(jwtToken, currentChain);
-    } else {
-      setWalletInfo(null);
-    }
-  }, [user, jwtToken, currentChain]);
-
-  // Sign in with a randomly generated Email and Password
-  const loginWithRandomEmail = async () => {
-    const randomString = Math.random().toString(36).substring(2, 10);
-    const email = `tester_${randomString}@mintflow.app`;
-    const password = 'MintFlowPassword123!';
-    
-    try {
-      // Create a new user with this random email
-      const result = await createUserWithEmailAndPassword(auth, email, password);
-      return result.user;
-    } catch (error) {
-      console.error('Error creating random user', error);
-      alert(`Login failed: ${error.message}`);
-      throw error;
-    }
-  };
-
-  // Sign out
-  const logout = async () => {
-    try {
-      await signOut(auth);
-    } catch (error) {
-      console.error('Error signing out', error);
-      throw error;
-    }
-  };
-
-  // Listen to auth state changes
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      if (currentUser) {
-        try {
-          const token = await currentUser.getIdToken();
-          setJwtToken(token);
-          setUser(currentUser);
-        } catch (err) {
-          console.error('Error getting user token', err);
-          setUser(currentUser);
-        }
-      } else {
+    const unsub = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (!firebaseUser) {
         setUser(null);
-        setJwtToken(null);
         setWalletInfo(null);
+        setLoading(false);
+        return;
       }
+      setUser(firebaseUser);
+      await fetchWallet(firebaseUser, currentChain);
       setLoading(false);
     });
+    return () => unsub();
+  }, [currentChain]);
 
-    // Cleanup subscription on unmount
-    return () => unsubscribe();
-  }, []);
+  // --------------------------
+  // EMAIL/PASSWORD AUTH
+  // --------------------------
+  const signup = async (email, password) => {
+    const result = await createUserWithEmailAndPassword(auth, email, password);
+    return result.user;
+  };
 
-  const value = {
-    user,
-    loading,
-    jwtToken,
-    currentChain,
-    walletInfo,
-    walletLoading,
-    setCurrentChain,
-    refetchWallet: () => {
-      if (jwtToken) fetchWallet(jwtToken, currentChain);
-    },
-    loginWithRandomEmail,
-    logout
+  const login = async (email, password) => {
+    const result = await signInWithEmailAndPassword(auth, email, password);
+    return result.user;
+  };
+
+  const loginWithGoogle = async () => {
+    const result = await signInWithPopup(auth, googleProvider);
+    return result.user;
+  };
+
+  // --------------------------
+  // GUEST (random email)
+  // --------------------------
+  const guestLogin = async () => {
+    const email = `guest_${Math.random().toString(36).substring(2, 10)}@mintflow.app`;
+    const password = "MintFlowGuest123!";
+    const result = await createUserWithEmailAndPassword(auth, email, password);
+    return result.user;
+  };
+
+  // --------------------------
+  // LOGOUT
+  // --------------------------
+  const logout = () => signOut(auth);
+
+  // --------------------------
+  // MANUAL WALLET REFRESH
+  // --------------------------
+  const refetchWallet = () => {
+    if (user) fetchWallet(user, currentChain);
   };
 
   return (
-    <AuthContext.Provider value={value}>
+    <AuthContext.Provider
+      value={{
+        user,
+        loading,
+        currentChain,
+        walletInfo,
+        walletLoading,
+        setCurrentChain,
+        refetchWallet,
+        signup,
+        login,
+        loginWithGoogle,
+        guestLogin,
+        logout
+      }}
+    >
       {!loading && children}
     </AuthContext.Provider>
   );

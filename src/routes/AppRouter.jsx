@@ -12,6 +12,7 @@ const BeginnerPage = lazy(() => import('../pages/BeginnerPage'));
 const TransactionFlowPage = lazy(() => import('../pages/TransactionFlowPage'));
 const FAQPage = lazy(() => import('../pages/FAQPage'));
 const SuccessPage = lazy(() => import('../pages/SuccessPage'));
+const LoginPage = lazy(() => import('../pages/LoginPage'));
 
 // ScrollToTop component to ensure new pages start at the top
 function ScrollToTop() {
@@ -40,6 +41,7 @@ export default function AppRouter() {
           <Route path="/transaction-flow" element={<Suspense fallback={<div className="flex h-screen items-center justify-center">Loading...</div>}><TransactionFlowPage /></Suspense>} />
           <Route path="/faq" element={<Suspense fallback={<div className="flex h-screen items-center justify-center">Loading...</div>}><FAQPage /></Suspense>} />
           <Route path="/success" element={<Suspense fallback={<div className="flex h-screen items-center justify-center">Loading...</div>}><SuccessPage /></Suspense>} />
+          <Route path="/login" element={<Suspense fallback={<div className="flex h-screen items-center justify-center">Loading...</div>}><LoginPage /></Suspense>} />
         </Route>
       </Routes>
     </BrowserRouter>

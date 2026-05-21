@@ -8,10 +8,13 @@ export default function PortfolioPage() {
   const { user, walletInfo } = useAuth();
   const [userTx, setUserTx] = useState([]);
   const [txLoading, setTxLoading] = useState(false);
+  const [now] = useState(() => Date.now());
 
   useEffect(() => {
     if (!walletInfo?.eoaAddress) {
-      setUserTx([]);
+      Promise.resolve().then(() => {
+        setUserTx([]);
+      });
       return;
     }
     const fetchUserTransactions = async () => {
@@ -73,7 +76,7 @@ export default function PortfolioPage() {
     label: `Minted <strong>${
       tx.chain === 'polygon' ? 'Polygon' : 'Base'
     } Genesis Credential</strong> badge.`,
-    time: `${Math.round((Date.now() - new Date(tx.createdAt).getTime()) / (1000 * 60 * 60 * 24))} days ago`,
+    time: `${Math.round((now - new Date(tx.createdAt).getTime()) / (1000 * 60 * 60 * 24))} days ago`,
     bg: 'bg-primary-fixed',
   }));
 

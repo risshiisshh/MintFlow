@@ -14,7 +14,7 @@ export default function Navbar({ onMenuToggle }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
-  const { user, loginWithRandomEmail, logout, walletInfo, walletLoading } = useAuth();
+  const { user, logout, walletInfo, walletLoading } = useAuth();
   const location = useLocation();
 
   const isActive = (path) => {
@@ -99,12 +99,11 @@ export default function Navbar({ onMenuToggle }) {
             </div>
 
             {!user ? (
-              <button
-                onClick={loginWithRandomEmail}
-                className="bg-secondary-container text-on-secondary-container px-md py-2 rounded-full font-bold text-sm hover:brightness-95 transition-all active:scale-95 shadow-sm whitespace-nowrap hidden sm:block"
-              >
-                Sign In
-              </button>
+                <Link to="/login"
+                  className="bg-secondary-container text-on-secondary-container px-md py-2 rounded-full font-bold text-sm hover:brightness-95 transition-all active:scale-95 shadow-sm whitespace-nowrap hidden sm:block"
+                >
+                  Sign In
+                </Link>
             ) : (
               <div className="relative ml-xs">
                 <div 

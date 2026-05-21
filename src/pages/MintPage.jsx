@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import StepperItem from '../components/ui/StepperItem';
 
 export default function MintPage() {
-  const { user, jwtToken, walletInfo, walletLoading, currentChain, setCurrentChain, loginWithRandomEmail } = useAuth();
+  const { user, jwtToken, walletInfo, walletLoading, currentChain, setCurrentChain, guestLogin } = useAuth();
   const [mintStatus, setMintStatus] = useState('idle'); // idle | queued | processing | success | failed
   const [txId, setTxId] = useState(null);
   const [txHash, setTxHash] = useState(null);
@@ -321,13 +321,13 @@ export default function MintPage() {
           {/* CTA Actions */}
           <div className="mt-lg">
             {!user ? (
-              <button
-                onClick={loginWithRandomEmail}
-                className="w-full py-md bg-primary text-on-primary rounded-full flex items-center justify-center gap-sm font-bold shadow-md hover:brightness-95 transition-all"
-              >
-                <span className="material-symbols-outlined">login</span>
-                <span>Sign In to Mint Gasless NFT</span>
-              </button>
+                <button
+                  onClick={guestLogin}
+                  className="w-full py-md bg-primary text-on-primary rounded-full flex items-center justify-center gap-sm font-bold shadow-md hover:brightness-95 transition-all"
+                >
+                  <span className="material-symbols-outlined">login</span>
+                  <span>Sign In to Mint Gasless NFT</span>
+                </button>
             ) : mintStatus === 'idle' || mintStatus === 'failed' || mintStatus === 'success' ? (
               <button
                 onClick={handleMint}

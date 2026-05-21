@@ -38,34 +38,45 @@ export async function requireAuth(
     const decoded = verifyJWT(token);
     req.user = { address: decoded.address.toLowerCase() };
     next();
-  } catch (siweError: any) {
-    // Attempt 2: Fallback to Firebase ID Token
-    try {
-      const decodedFirebase = await firebaseAuth.verifyIdToken(token);
-      
-      // Map Firebase UID to an Ethereum address
-      const uid = decodedFirebase.uid;
-      const mappingRef = db.collection('firebase_mappings').doc(uid);
-      const mappingDoc = await mappingRef.get();
-      
-      let userAddress: string;
-      if (!mappingDoc.exists) {
-        // Generate a random EOA as their primary identifier
-        const randomWallet = Wallet.createRandom();
-        userAddress = randomWallet.address.toLowerCase();
-        await mappingRef.set({
-          uid,
-          address: userAddress,
-          createdAt: new Date().toISOString()
-        });
-      } else {
-        userAddress = mappingDoc.data()?.address;
+    } catch (siweError: any) {
+      // Attempt 2: Fallback to Firebase ID Token
+      let decodedFirebase;
+      try {
+        decodedFirebase = await firebaseAuth.verifyIdToken(token);
+      } catch (firebaseError: any) {
+        console.error("Firebase ID Token verification error:", firebaseError);
+        res.status(401).json({ error: 'Unauthorized session. Invalid token.' });
+        return;
       }
+      
+      try {
+        // Map Firebase UID to an Ethereum address
+        const uid = decodedFirebase.uid;
+        const mappingRef = db.collection('firebase_mappings').doc(uid);
+        const mappingDoc = await mappingRef.get();
+        
+        let userAddress: string;
+        if (!mappingDoc.exists) {
+          // Generate a random EOA as their primary identifier
+          const randomWallet = Wallet.createRandom();
+          userAddress = randomWallet.address.toLowerCase();
+          await mappingRef.set({
+            uid,
+            address: userAddress,
+            createdAt: new Date().toISOString()
+          });
+        } else {
+          userAddress = mappingDoc.data()?.address;
+        }
 
-      req.user = { address: userAddress };
-      next();
-    } catch (firebaseError: any) {
-      res.status(401).json({ error: 'Unauthorized session. Invalid token.' });
+        req.user = { address: userAddress };
+        next();
+      } catch (dbError: any) {
+        console.error("Firestore database error:", dbError);
+        res.status(500).json({ 
+          error: 'Internal Server Error', 
+          details: 'Failed to access Firestore. Make sure Firestore Database is created and enabled in your Firebase Console.' 
+        });
+      }
     }
-  }
 }

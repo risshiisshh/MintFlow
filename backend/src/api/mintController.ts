@@ -75,7 +75,7 @@ export async function handleGetSmartWallet(req: AuthenticatedRequest, res: Respo
     }
 
     const walletInfo = await getOrCreateSmartAccount(eoaAddress, chain);
-    res.status(200).json(walletInfo);
+    res.status(200).json({ ...walletInfo, eoaAddress });
   } catch (error: any) {
     console.error('❌ Failed to fetch/create smart account:', error);
     res.status(500).json({ error: error.message || 'Internal blockchain error' });
