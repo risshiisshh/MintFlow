@@ -1,5 +1,7 @@
 # 🌊 MintFlow
 
+**[Live Deployment on Google Cloud Run](https://mintflow-970680264240.europe-west1.run.app/)**
+
 Gasless Web3 Onboarding Infrastructure for Seamless NFT Credential Minting
 
 ## 🚀 Overview
