@@ -182,3 +182,7 @@ It is a Web3 onboarding infrastructure layer designed to:
 MintFlow bridges the gap between Web2 simplicity and Web3 infrastructure.
 
 It demonstrates how users can interact with blockchain systems without ever needing to understand gas fees, wallets, or seed phrases — while still preserving a scalable architecture for real ERC-4337 deployment.
+
+## 📸 Screenshots
+
+<!-- Add your screenshots here like: ![Description](./path/to/image.png) -->
