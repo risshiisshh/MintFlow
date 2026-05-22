@@ -1,4 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 const menuGroups = {
   Platform: [
@@ -23,6 +24,7 @@ const menuGroups = {
 export default function SideMenu({ isOpen, onClose }) {
   const location = useLocation();
   const isActive = (path) => location.pathname === path;
+  const { user, logout } = useAuth();
 
   return (
     <>
@@ -74,17 +76,37 @@ export default function SideMenu({ isOpen, onClose }) {
           ))}
         </div>
 
-        {/* Footer (Settings & Plan) */}
+        {/* Footer (Settings & Auth) */}
         <div className="p-md border-t border-outline-variant/20 bg-surface-container-lowest">
           <div className="mb-sm">
+            {!user ? (
+              <Link 
+                to="/login" 
+                onClick={onClose} 
+                className="w-full flex items-center gap-sm px-sm py-2 rounded-lg text-sm font-bold bg-secondary-container text-on-secondary-container hover:brightness-95 transition-colors mb-2"
+              >
+                <span className="material-symbols-outlined text-[20px]">login</span>
+                Sign In
+              </Link>
+            ) : (
+              <button 
+                onClick={() => { logout(); onClose(); }} 
+                className="w-full flex items-center gap-sm px-sm py-2 rounded-lg text-sm font-medium text-error hover:bg-surface-container transition-colors mb-2"
+              >
+                <span className="material-symbols-outlined text-[20px]">logout</span>
+                Disconnect
+              </button>
+            )}
             <button className="w-full flex items-center gap-sm px-sm py-2 rounded-lg text-sm font-medium text-on-surface hover:bg-surface-container transition-colors">
               <span className="material-symbols-outlined text-[20px]">settings</span>
               Settings
             </button>
-            <button className="w-full flex items-center gap-sm px-sm py-2 rounded-lg text-sm font-medium text-on-surface hover:bg-surface-container transition-colors">
-              <span className="material-symbols-outlined text-[20px]">manage_accounts</span>
-              Profile Settings
-            </button>
+            {user && (
+              <button className="w-full flex items-center gap-sm px-sm py-2 rounded-lg text-sm font-medium text-on-surface hover:bg-surface-container transition-colors">
+                <span className="material-symbols-outlined text-[20px]">manage_accounts</span>
+                Profile Settings
+              </button>
+            )}
           </div>
           
           {/* Static User Plan UI */}

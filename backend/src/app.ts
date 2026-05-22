@@ -17,6 +17,12 @@ app.use(
   })
 );
 
+// 2.5 Security Headers for OAuth popups
+app.use((req: Request, res: Response, next: NextFunction) => {
+  res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
+  next();
+});
+
 // 3. Request Body Parser
 app.use(express.json());
 

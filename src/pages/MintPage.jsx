@@ -103,23 +103,23 @@ export default function MintPage() {
   return (
     <div className="min-h-screen flex flex-col md:flex-row pt-32 pb-16 bg-background">
       {/* ── Left: NFT Preview ── */}
-      <section className="w-full md:w-1/2 h-[50vh] md:h-[calc(100vh-128px)] md:sticky md:top-32 px-md flex items-center justify-center">
+      <section className="w-full md:w-1/2 md:h-[calc(100vh-128px)] md:sticky md:top-32 px-md flex items-center justify-center mb-12 md:mb-0">
         <div
-          className="relative w-full h-full max-w-2xl rounded-xl overflow-hidden shadow-sm border border-outline-variant/20 flex items-center justify-center group"
+          className="relative w-full md:h-full max-w-2xl rounded-xl overflow-hidden shadow-sm border border-outline-variant/20 flex flex-col md:flex-row items-center justify-center group py-12 md:py-0"
           style={{ backgroundColor: '#E8EBE6' }}
         >
           <div className="absolute inset-0 bg-gradient-to-tr from-surface-dim/20 to-transparent pointer-events-none" />
 
           {/* NFT visual placeholder */}
-          <div className="relative z-10 flex flex-col items-center justify-center w-full h-full p-8">
-            <div className="w-48 h-64 rounded-2xl bg-gradient-to-br from-primary to-primary-container flex flex-col items-center justify-center shadow-modal">
+          <div className="relative z-10 flex flex-col items-center justify-center w-full md:h-full p-8">
+            <div className="w-48 h-64 rounded-2xl bg-gradient-to-br from-primary to-primary-container flex flex-col items-center justify-center shadow-modal shrink-0">
               <span className="material-symbols-outlined fill text-[80px] text-secondary-container mb-4">workspace_premium</span>
               <p className="text-secondary-container font-bold text-sm uppercase tracking-widest">Credential NFT</p>
             </div>
           </div>
 
           {/* Glass Detail Badge */}
-          <div className="absolute bottom-md left-md glass-panel rounded-lg p-md shadow-lg max-w-[320px]">
+          <div className="relative md:absolute z-20 mt-4 md:mt-0 md:bottom-md md:left-md glass-panel rounded-lg p-md shadow-lg max-w-[320px] mx-4 md:mx-0">
             <div className="flex items-center gap-xs mb-base">
               <span className="material-symbols-outlined fill text-secondary text-[18px]">verified</span>
               <span className="font-caption text-caption uppercase tracking-wider text-on-surface-variant font-bold">Authentic Credential</span>
@@ -147,7 +147,7 @@ export default function MintPage() {
           {/* Chain tab selector */}
           <div className="mb-lg">
             <label className="text-caption text-on-surface-variant font-bold uppercase tracking-wider mb-xs block">Choose Network</label>
-            <div className="flex gap-sm">
+            <div className="flex flex-col sm:flex-row gap-sm">
               <button
                 disabled={mintStatus !== 'idle' && mintStatus !== 'failed' && mintStatus !== 'success'}
                 onClick={() => setCurrentChain('base')}

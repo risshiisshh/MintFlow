@@ -5,7 +5,6 @@ backend/dist/
 backend/node_modules/
 
 # Environment Variables
-.env
 .env.local
 .env.*.local
 backend/.env

@@ -32,10 +32,10 @@ export default function LandingPage() {
       {/* ── Hero ── */}
       <section className="pt-[160px] pb-section px-lg max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-xl">
         <div className="flex-1 space-y-lg">
-          <h1 className="font-display-xl text-display-xl text-primary max-w-2xl leading-[0.85] tracking-[-0.02em]">
+          <h1 className="font-display-xl text-5xl md:text-display-xl text-primary max-w-2xl leading-[0.85] tracking-[-0.02em]">
             Mint NFTs Without ETH
           </h1>
-          <p className="font-heading-lg text-heading-lg text-on-surface-variant max-w-xl">
+          <p className="font-heading-lg text-xl md:text-heading-lg text-on-surface-variant max-w-xl">
             MintFlow removes gas friction from Web3 onboarding using UGF-powered gas abstraction.
           </p>
           <div className="flex flex-wrap gap-md pt-sm">
@@ -91,7 +91,7 @@ export default function LandingPage() {
       {/* ── Features Grid (Interactive 8-Side Format) ── */}
       <section className="py-hero px-lg max-w-7xl mx-auto relative">
         <div className="text-center mb-xl space-y-sm">
-          <h2 className="font-display-md text-display-md text-primary">Designed for Humans</h2>
+          <h2 className="font-display-md text-3xl md:text-display-md text-primary">Designed for Humans</h2>
           <p className="font-body-md text-body-md text-on-surface-variant max-w-2xl mx-auto">
             We abstracted away the complex blockchain mechanics so you can focus on building your community and delivering value.
           </p>
@@ -136,7 +136,7 @@ export default function LandingPage() {
       {/* ── How It Works (Step-by-Step Pipeline) ── */}
       <section className="py-hero px-lg max-w-7xl mx-auto bg-surface-bright rounded-3xl mb-section overflow-hidden border border-outline-variant/20 shadow-sm">
         <div className="text-center mb-xl space-y-sm">
-          <h2 className="font-display-md text-display-md text-primary">How It Works</h2>
+          <h2 className="font-display-md text-3xl md:text-display-md text-primary">How It Works</h2>
           <p className="font-body-md text-body-md text-on-surface-variant max-w-2xl mx-auto">
             Your users follow a simple, 5-step journey that feels like Web2 but owns like Web3.
           </p>
@@ -176,7 +176,7 @@ export default function LandingPage() {
       {/* ── Collector Showcase ── */}
       <section className="py-section px-lg max-w-7xl mx-auto border-t border-surface-variant">
         <div className="text-center mb-xl space-y-sm">
-          <h2 className="font-display-md text-display-md text-primary">Collector Showcase</h2>
+          <h2 className="font-display-md text-3xl md:text-display-md text-primary">Collector Showcase</h2>
           <p className="font-body-md text-body-md text-on-surface-variant max-w-2xl mx-auto">
             Premium NFT badge examples minted seamlessly via MintFlow.
           </p>

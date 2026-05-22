@@ -7,7 +7,8 @@ RUN npm ci
 # Copy all root source code (frontend)
 COPY src ./src
 COPY public ./public
-COPY index.html vite.config.js tailwind.config.js postcss.config.js eslint.config.js ./
+COPY index.html vite.config.js tailwind.config.js postcss.config.js eslint.config.js .env.cloud* ./
+RUN cp .env.cloud .env || echo "NO .env.cloud FILE"
 RUN npm run build
 
 # ── Stage 2: Build Backend ───────────────────────────────────────────────────

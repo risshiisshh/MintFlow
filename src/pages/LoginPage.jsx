@@ -1,11 +1,17 @@
 // src/pages/LoginPage.jsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
-  const { login, signup, loginWithGoogle, guestLogin } = useAuth();
+  const { login, signup, loginWithGoogle, guestLogin, user } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, [user, navigate]);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,16 +39,18 @@ export default function LoginPage() {
     }
   };
 
-  const handleGoogle = async () => {
-    setLoading(true);
-    try {
-      await loginWithGoogle();
-      navigate("/dashboard");
-    } catch (err) {
-      setError(err.message || "Google login failed");
-    } finally {
-      setLoading(false);
-    }
+  const handleGoogle = (e) => {
+    e.preventDefault();
+    // Do NOT set loading to true here, as React's state batching may delay
+    // the popup invocation, causing mobile browsers to block the popup.
+    loginWithGoogle()
+      .then(() => {
+        // Will be redirected by useEffect
+      })
+      .catch((err) => {
+        setError(err.message || "Google login failed");
+        setLoading(false);
+      });
   };
 
   const handleGuest = async () => {

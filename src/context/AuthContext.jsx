@@ -89,9 +89,9 @@ export function AuthProvider({ children }) {
     return result.user;
   };
 
-  const loginWithGoogle = async () => {
-    const result = await signInWithPopup(auth, googleProvider);
-    return result.user;
+  const loginWithGoogle = () => {
+    // Return the promise directly to keep it in the synchronous call stack for mobile
+    return signInWithPopup(auth, googleProvider);
   };
 
   // --------------------------
