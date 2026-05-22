@@ -108,7 +108,7 @@ MintFlow demonstrates:
 - Seamless Web2-like onboarding experience
 - Modular design ready for ERC-4337 upgrade
 
-## 🧪 Demo Behavior (Important for Judges)
+## 🧪 Demo Behavior
 
 MintFlow currently operates in a hybrid mode:
 
@@ -162,9 +162,9 @@ MintFlow currently operates in a hybrid mode:
 
 ## 🧑‍💻 Team
 - Aditya Pushpakar — Backend & Infrastructure
-- Rishabh — UI/UX + Architecture + System Fixes
-- Mrigesh — Testing & Validation
-- Jayani — Documentation & Coordination
+- Rishabh Shevde — UI/UX + Architecture + System Fixes
+- Mrigesh Koyande— Testing & Validation
+- Jayani Trivedi — Documentation & Coordination
 
 ## 🎯 Final Vision
 
@@ -183,6 +183,4 @@ MintFlow bridges the gap between Web2 simplicity and Web3 infrastructure.
 
 It demonstrates how users can interact with blockchain systems without ever needing to understand gas fees, wallets, or seed phrases — while still preserving a scalable architecture for real ERC-4337 deployment.
 
-## 📸 Screenshots
 
-<!-- Add your screenshots here like: ![Description](./path/to/image.png) -->
