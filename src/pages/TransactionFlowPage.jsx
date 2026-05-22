@@ -99,7 +99,7 @@ export default function TransactionFlowPage() {
           </aside>
           
           {/* Right: Visual Network Map & Metrics */}
-          <main className="lg:col-span-8 relative flex items-center justify-center bg-surface-bright overflow-hidden p-md">
+          <main className="lg:col-span-8 relative flex items-center justify-center bg-surface-bright overflow-x-auto overflow-y-hidden p-md">
             {/* Top Metrics */}
             <div className="absolute top-md left-md right-md flex justify-between z-20">
                <div className="flex gap-xs">
@@ -118,7 +118,7 @@ export default function TransactionFlowPage() {
             </div>
             
             {/* Interactive Graph Canvas */}
-            <div className="w-full h-full relative flex items-center justify-center">
+            <div className="min-w-[600px] w-full h-full relative flex items-center justify-center">
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-surface-variant/20 to-transparent" />
               
               <div className="relative z-10 w-full h-[400px] flex items-center justify-between px-[10%]">

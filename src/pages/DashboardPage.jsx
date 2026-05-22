@@ -213,7 +213,7 @@ export default function DashboardPage() {
                 </Link>
               </div>
             ) : (
-              <div className="bg-surface rounded-lg overflow-hidden shadow-sm border border-outline-variant/50">
+              <div className="bg-surface rounded-lg overflow-x-auto shadow-sm border border-outline-variant/50">
                 <table className="w-full text-left">
                   <thead>
                     <tr className="bg-surface-variant/30 border-b border-outline-variant/50">

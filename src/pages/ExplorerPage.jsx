@@ -145,8 +145,8 @@ export default function ExplorerPage() {
               <button className="px-md py-xs rounded-full text-on-surface-variant hover:text-primary transition-colors text-sm">Idle</button>
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-sm border border-outline-variant/20 overflow-hidden">
-            <table className="w-full text-left">
+          <div className="bg-white rounded-xl shadow-sm border border-outline-variant/20 overflow-x-auto">
+            <table className="w-full text-left min-w-[600px]">
               <thead>
                 <tr className="bg-surface-container-low text-on-surface-variant text-caption font-bold border-b border-outline-variant/10">
                   {['Relayer ID', 'Location', 'Capacity', 'Uptime', 'Status', ''].map((h) => (
